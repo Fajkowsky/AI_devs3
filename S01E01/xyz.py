@@ -1,9 +1,12 @@
 import asyncio
 import os
+import sys
 import re
 
 import aiohttp
 from dotenv import load_dotenv
+
+from common.ollama_api_client import OllamaAPIClient
 
 load_dotenv(".env")
 OLLAMA_URL = os.getenv("OLLAMA_URL")
@@ -13,26 +16,6 @@ FORM_PASSWORD = "574e112a"
 
 SYSTEM_PROMPT = "You are assistant, answer only the question, no other information."
 PROMPT_TEMPLATE = "Answer the question with only the year.\nQuestion: {question}"
-
-
-class APIClient:
-    def __init__(
-        self, model="llama3.2", url=OLLAMA_URL, session: aiohttp.ClientSession = None
-    ):
-        self.model = model
-        self.url = url
-        self.session = session
-
-    async def get_response(self, prompt: str) -> str:
-        payload = {
-            "model": self.model,
-            "prompt": prompt,
-            "stream": False,
-            "system": SYSTEM_PROMPT,
-        }
-        async with self.session.post(self.url, json=payload) as response:
-            result = await response.json()
-            return result.get("response", "")
 
 
 class FormHandler:
@@ -61,7 +44,7 @@ class FormHandler:
 async def main():
     async with aiohttp.ClientSession() as session:
         form_handler = FormHandler(session)
-        api_client = APIClient(session=session)
+        api_client = OllamaAPIClient(session=session)
 
         question = await form_handler.get_question(FORM_URL)
         print(f"Found question: {question}")
