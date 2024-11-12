@@ -23,16 +23,18 @@ class APIClient:
             "apikey": self.api_key,
             "answer": data,
         }
-        async with self.session.post(self.url, json=json_payload) as response:
+        async with self.session.post(self.url, json=json_payload, ssl=False) as response:
             return await response.text()
 
 
 async def start():
     async with aiohttp.ClientSession() as session:
         try:
-            async with session.get(DATA_URL) as resp:
+            async with session.get(DATA_URL, ssl=False) as resp:
                 data = (await resp.text()).split()
-            response_text = await APIClient(VERIFY_URL, API_KEY, session).post_data(data)
+            response_text = await APIClient(VERIFY_URL, API_KEY, session).post_data(
+                data
+            )
             print(response_text)
         except Exception as e:
             print(f"An error occurred: {e}")

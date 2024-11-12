@@ -5,3 +5,4 @@ isort .
 
 # Run ruff to format code
 ruff check --fix .
+ruff format .

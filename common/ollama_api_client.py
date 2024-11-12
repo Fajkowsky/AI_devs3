@@ -17,13 +17,15 @@ class OllamaAPIClient:
         self.url = url
         self.session = session
 
-    async def get_response(self, prompt: str, system_prompt: str = DEFAULT_SYSTEM_PROMPT) -> str:
+    async def get_response(
+        self, prompt: str, system_prompt: str = DEFAULT_SYSTEM_PROMPT
+    ) -> str:
         payload = {
             "model": self.model,
             "prompt": prompt,
             "stream": False,
             "system": system_prompt,
         }
-        async with self.session.post(self.url, json=payload) as response:
+        async with self.session.post(self.url, json=payload, ssl=False) as response:
             result = await response.json()
             return result.get("response", "")
