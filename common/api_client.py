@@ -10,7 +10,12 @@ API_URL = os.getenv("CENTRALA_REPORT_API_URL")
 
 
 class APIHandler:
-    def __init__(self, session: aiohttp.ClientSession, api_key: str = API_KEY, api_url: str = API_URL) -> None:
+    def __init__(
+        self,
+        session: aiohttp.ClientSession,
+        api_key: str = API_KEY,
+        api_url: str = API_URL,
+    ) -> None:
         self.session = session
         self.api_key = api_key
         self.api_url = api_url

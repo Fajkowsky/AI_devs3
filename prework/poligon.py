@@ -23,7 +23,9 @@ class APIClient:
             "apikey": self.api_key,
             "answer": data,
         }
-        async with self.session.post(self.url, json=json_payload, ssl=False) as response:
+        async with self.session.post(
+            self.url, json=json_payload, ssl=False
+        ) as response:
             return await response.text()
 
 

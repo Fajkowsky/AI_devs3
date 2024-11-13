@@ -1,3 +1,4 @@
+import base64
 import os
 
 import aiohttp
@@ -18,7 +19,10 @@ class OllamaAPIClient:
         self.session = session
 
     async def get_response(
-        self, prompt: str, system_prompt: str = DEFAULT_SYSTEM_PROMPT
+        self,
+        prompt: str,
+        system_prompt: str = DEFAULT_SYSTEM_PROMPT,
+        images: list = None,
     ) -> str:
         payload = {
             "model": self.model,
@@ -26,6 +30,12 @@ class OllamaAPIClient:
             "stream": False,
             "system": system_prompt,
         }
+        if images:
+            payload["images"] = [self._convert_image_to_base64(image) for image in images]
         async with self.session.post(self.url, json=payload, ssl=False) as response:
             result = await response.json()
             return result.get("response", "")
+
+    def _convert_image_to_base64(self, image_path: str) -> str:
+        with open(image_path, "rb") as image_file:
+            return base64.b64encode(image_file.read()).decode("utf-8")

@@ -9,12 +9,11 @@ PROMPT_TEMPLATE = "Answer the question with only the year.\nQuestion: {question}
 
 
 class FormHandler:
-    FORM_URL = "https://xyz.ag3nts.org/"
-    FORM_USERNAME = "tester"
-    FORM_PASSWORD = "574e112a"
-
     def __init__(self, session: aiohttp.ClientSession):
         self.session = session
+        self.form_url = "https://xyz.ag3nts.org/"
+        self.form_username = "tester"
+        self.form_password = "574e112a"
 
     async def get_question(self) -> str:
         async with self.session.get(self.FORM_URL, ssl=False) as response:
@@ -28,11 +27,13 @@ class FormHandler:
 
     async def submit_answer(self, answer: str) -> str:
         form_data = {
-            "username": self.FORM_USERNAME,
-            "password": self.FORM_PASSWORD,
+            "username": self.form_username,
+            "password": self.form_password,
             "answer": answer,
         }
-        async with self.session.post(self.FORM_URL, data=form_data, ssl=False) as response:
+        async with self.session.post(
+            self.form_url, data=form_data, ssl=False
+        ) as response:
             return await response.text()
 
     def get_flag(self, text: str) -> str:

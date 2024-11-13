@@ -190,8 +190,12 @@ pyrightconfig.json
 .history
 .ionide
 
+### Custom
+.DS_Store
+
 ### AI_devs
 *.zip
 *.m4a
 *.wav
 *.txt
+extracted_maps/map*.jpg
