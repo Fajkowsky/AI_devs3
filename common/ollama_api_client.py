@@ -31,7 +31,9 @@ class OllamaAPIClient:
             "system": system_prompt,
         }
         if images:
-            payload["images"] = [self._convert_image_to_base64(image) for image in images]
+            payload["images"] = [
+                self._convert_image_to_base64(image) for image in images
+            ]
         async with self.session.post(self.url, json=payload, ssl=False) as response:
             result = await response.json()
             return result.get("response", "")

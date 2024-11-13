@@ -82,7 +82,7 @@ async def main():
                 images=[image],
             )
             streets[f"map_{number + 1}"] = response
-        
+
         ollama_client = OllamaAPIClient(session=session, model="llama3.1")
         response = await ollama_client.get_response(
             prompt=PROMPT_CITY.format(streets=streets),
