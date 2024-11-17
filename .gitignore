@@ -198,4 +198,4 @@ pyrightconfig.json
 *.m4a
 *.wav
 *.txt
-extracted_maps/map*.jpg
+*/extracted/*

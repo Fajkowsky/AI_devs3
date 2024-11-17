@@ -47,7 +47,7 @@ class MapHandler:
         }
         self.directory = pathlib.Path(__file__).parent.resolve()
         self.map_path = self.directory / "map.jpeg"
-        self.extracted_directory = self.directory / "extracted_maps"
+        self.extracted_directory = self.directory / "extracted"
 
     async def process(self):
         return self._extract_maps()
@@ -70,8 +70,8 @@ class MapHandler:
 
 async def main():
     async with aiohttp.ClientSession() as session:
-        mp3_handler = MapHandler()
-        images = await mp3_handler.process()
+        map_handler = MapHandler()
+        images = await map_handler.process()
 
         streets = {}
         ollama_client = OllamaAPIClient(session=session, model="llama3.2-vision")

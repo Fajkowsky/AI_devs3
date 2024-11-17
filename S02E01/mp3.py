@@ -42,7 +42,7 @@ class MP3Handler:
         self.zip_filename = "przesluchania.zip"
         self.directory = os.path.dirname(os.path.abspath(__file__))
         self.path = os.path.join(self.directory, self.zip_filename)
-        self.extraction_path = os.path.join(self.directory, "przesluchania")
+        self.extraction_path = os.path.join(self.directory, "extracted")
         self.data_url = f"https://centrala.ag3nts.org/dane/{self.zip_filename}"
 
     async def process(self):

@@ -20,6 +20,12 @@ class APIHandler:
         self.api_key = api_key
         self.api_url = api_url
 
+    async def get_data(self, postfix: str):
+        url = f"https://centrala.ag3nts.org/data/{API_KEY}/{postfix}"
+        async with self.session.get(url, ssl=False) as response:
+            response.raise_for_status()
+            return await response.json()
+
     async def send_report(self, data: str, task: str):
         payload = {"answer": data, "apikey": self.api_key, "task": task}
         return await self._post_request(self.api_url, payload)
